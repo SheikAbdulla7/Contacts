@@ -1,0 +1,23 @@
+package com.example.contacts.adapter
+
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.Lifecycle
+import androidx.viewpager2.adapter.FragmentStateAdapter
+
+class ViewPagerAdapter(fragmentManager: FragmentManager, lifecycle: Lifecycle) : FragmentStateAdapter(fragmentManager, lifecycle) {
+
+    private val fragmentList = mutableListOf<Fragment>()
+
+
+    fun addFragment(fragment: Fragment, title: String){
+        fragmentList.add(fragment)
+//        fragmentTitleList.add(title)
+    }
+
+    override fun getItemCount() = fragmentList.size
+
+    override fun createFragment(position: Int) = fragmentList[position]
+
+
+}
