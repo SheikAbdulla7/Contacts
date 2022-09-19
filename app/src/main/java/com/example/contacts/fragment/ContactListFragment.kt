@@ -33,8 +33,8 @@ class ContactListFragment : Fragment(), FindFragment {
         println("12345678900987654321234567890987654321`")
         println(context)
 
-        if(savedInstanceState == null){
-        }
+//        if(savedInstanceState == null){
+//        }
 
     }
 
@@ -62,25 +62,22 @@ class ContactListFragment : Fragment(), FindFragment {
         println("fiiiiiillllllllllllleeeeeeeeeeeessssssssss")
         println(File(context?.getExternalFilesDir("/"), "ContactsMedia").listFiles()?.size)
 
-        val clickable = object : Clickable {
-            override fun onContactItemClicked(user: User) {
-                viewModel.setSelectedDetails(user)
-                DetailBottomSheet().show(parentFragmentManager, "GET_USER")
-            }
-        }
 
-        adapter = ContactListAdapter(requireContext(), clickable)
+        adapter = ContactListAdapter(requireContext()) { user ->
+            viewModel.setSelectedDetails(user)
+            DetailBottomSheet().show(parentFragmentManager, "GET_USER")
+        }
 
 
         binding.contactList.adapter = adapter
 
 
-        viewModel.contactsList.observe(viewLifecycleOwner, Observer<List<User>>{ contacts ->
+        viewModel.contactsList.observe(viewLifecycleOwner) { contacts ->
             println(contacts)
             adapter.submitList(contacts)
             adapter.filteringList = contacts
 
-        })
+        }
 //        binding.contactList.adapter = ContactListAdapter(contactList ?: MutableLiveData<List<User>>())
         binding.addContact.setOnClickListener{
             println(childFragmentManager.findFragmentById(R.id.fragment_container))

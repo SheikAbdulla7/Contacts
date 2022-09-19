@@ -22,7 +22,6 @@ import com.example.contacts.entity.User
 import com.example.contacts.viewmodels.ContactDetailViewModel
 import com.example.contacts.viewmodels.ContactListViewModel
 import com.example.contacts.viewmodels.FragmentLifecycleObserver
-import com.google.android.material.bottomsheet.BottomSheetBehavior
 
 
 class FavouritesFragment : Fragment(), FindFragment {
@@ -39,10 +38,6 @@ class FavouritesFragment : Fragment(), FindFragment {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        if(savedInstanceState == null){
-//            detailViewModel.initializeRepo(requireContext())
-        }
 
     }
 
@@ -113,11 +108,10 @@ class FavouritesFragment : Fragment(), FindFragment {
         }
 
         adapter = FavouriteListAdapter(requireContext(), itemClickListener)
-
         binding.favouriteRecyclerView.adapter = adapter
 
 
-        viewModel.contactsList.observe(viewLifecycleOwner, Observer<List<User>> { contactList ->
+        viewModel.contactsList.observe(viewLifecycleOwner) { contactList ->
             val favList = contactList.filter { user ->
                 user.favourite
             }
@@ -126,7 +120,7 @@ class FavouritesFragment : Fragment(), FindFragment {
             adapter.filteringList = favList
 //            binding.favouriteRecyclerView.adapter.
 
-        })
+        }
 
 
     }
